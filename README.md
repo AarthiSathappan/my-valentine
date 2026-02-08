@@ -1,2 +1,2 @@
 # my-valentine
-"Valentine's Day special for my love ❤️♥️"
+"Valentine's Day special for my love ❤️"
