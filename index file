@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Will You Be My Lover Forever?</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center; 
+            height: 100vh; 
+            background: linear-gradient(135deg, #ff6b9d 0%, #ffc0cb 100%);
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+        }
+        .container {
+            text-align: center;
+            z-index: 10;
+        }
+        h1 {
+            font-size: 3em;
+            color: white;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        .buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+        button {
+            padding: 15px 40px;
+            font-size: 1.2em;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+        #yesBtn {
+            background-color: #ff1744;
+            color: white;
+        }
+        #yesBtn:hover {
+            background-color: #d01040;
+            transform: scale(1.1);
+        }
+        #noBtn {
+            background-color: #4CAF50;
+            color: white;
+        }
+        #noBtn:hover {
+            background-color: #388E3C;
+            transform: scale(1.05);
+        }
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 40px 60px;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+            z-index: 100;
+            font-size: 2em;
+            animation: popupAppear 0.5s ease;
+        }
+        @keyframes popupAppear {
+            from { transform: translate(-50%, -50%) scale(0.5); opacity: 0; }
+            to { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+        }
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 50;
+        }
+        .celebration {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 200;
+            background: linear-gradient(135deg, #ff6b9d 0%, #ffc0cb 100%);
+        }
+        .celebration h2 {
+            font-size: 3em;
+            color: white;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        .celebration img {
+            width: 300px;
+            height: 300px;
+            border-radius: 20px;
+            border: 5px solid white;
+            margin: 20px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+        }
+        .hearts {
+            font-size: 5em;
+            margin: 20px 0;
+            animation: heartBeat 1s infinite;
+        }
+        @keyframes heartBeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+        .floating-heart {
+            position: fixed;
+            font-size: 2em;
+            animation: float 3s ease-in forwards;
+            pointer-events: none;
+        }
+        @keyframes float {
+            0% { opacity: 1; transform: translateY(0) translateX(0); }
+            100% { opacity: 0; transform: translateY(-100vh) translateX(100px); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>💕 Will you be my lover forever? 💕</h1>
+        <div class="buttons">
+            <button id="yesBtn">YES ❤️</button>
+            <button id="noBtn">NO 💔</button>
+        </div>
+    </div>
+
+    <div class="overlay" id="overlay"></div>
+    <div class="popup" id="popup"></div>
+
+    <div class="celebration" id="celebration">
+        <h2>🎉 YES! 🎉</h2>
+        <div class="hearts">❤️ 💕 ❤️</div>
+        <img id="couplePhoto" src="couple.jpg" alt="Us Together" onerror="this.src='https://via.placeholder.com/300?text=Our+Love'">
+        <div class="hearts">❤️ 💕 ❤️</div>
+        <h2 style="margin-top: 20px; font-size: 2em;">Forever Yours! 💑</h2>
+    </div>
+
+    <script>
+        let noCount = 0;
+        const messages = [
+            '🥺 Please...',
+            '😤 Konruven?',
+            '😎 Mariyathya accept panu!'
+        ];
+
+        const popup = document.getElementById('popup');
+        const overlay = document.getElementById('overlay');
+        const celebration = document.getElementById('celebration');
+
+        function createFloatingHearts() {
+            for (let i = 0; i < 10; i++) {
+                setTimeout(() => {
+                    const heart = document.createElement('div');
+                    heart.className = 'floating-heart';
+                    heart.innerHTML = '❤️';
+                    heart.style.left = Math.random() * window.innerWidth + 'px';
+                    heart.style.top = window.innerHeight + 'px';
+                    document.body.appendChild(heart);
+                    setTimeout(() => heart.remove(), 3000);
+                }, i * 100);
+            }
+        }
+
+        document.getElementById('yesBtn').onclick = function() {
+            celebration.style.display = 'flex';
+            createFloatingHearts();
+        };
+
+        document.getElementById('noBtn').onclick = function() {
+            if (noCount < messages.length) {
+                popup.innerHTML = messages[noCount];
+                popup.style.display = 'block';
+                overlay.style.display = 'block';
+                noCount++;
+            }
+        };
+
+        overlay.onclick = function() {
+            popup.style.display = 'none';
+            overlay.style.display = 'none';
+        };
+    </script>
+</body>
+</html>
